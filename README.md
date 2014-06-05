@@ -1,4 +1,4 @@
 ContanetApp
 ===========
 
-Contabilidad domestica (Strust 1.3, Hibernate, Mysql)
+Contabilidad doméstica (Strust 1.3, Hibernate, Mysql)
