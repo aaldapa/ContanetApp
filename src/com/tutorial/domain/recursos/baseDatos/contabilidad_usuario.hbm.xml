@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12-nov-2011 12:46:10 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tutorial.domain.entidades.baseDatos.ContabilidadUsuario" table="contabilidad_usuario">
+        <id name="idContabilidadUsuario" type="java.lang.Integer">
+            <column name="id_contabilidad_usuario" />
+            <generator class="native" />
+        </id>        
+        <many-to-one 
+        	name="usuario"  
+        	column="id_usuario"
+        	class="com.tutorial.domain.entidades.baseDatos.Usuario" 
+        	not-null="true"/>
+        	        
+        <many-to-one 
+        	name="contabilidad" 
+        	column="id_contabilidad" 
+        	class="com.tutorial.domain.entidades.baseDatos.Contabilidad"
+        	not-null="true"/>
+        
+        <property name="baja" type="java.lang.String">
+   			<column name="baja" not-null="true"/>
+  		</property>
+        
+    </class>
+</hibernate-mapping>

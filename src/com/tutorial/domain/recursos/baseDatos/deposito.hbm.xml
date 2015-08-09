@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-ene-2013 17:46:27 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="com.tutorial.domain.entidades.baseDatos.Deposito" table="deposito">
+  
+  <id name="idDeposito" type="java.lang.Integer">
+  	<column name="id_deposito"/>
+   	<generator class="native"/>
+  </id>
+  
+  <property name="numeroDeposito" type="java.lang.String">
+   <column name="numero_deposito"/>
+  </property>
+
+  <many-to-one  
+  			name="contabilidad"
+  			column="id_contabilidad"
+  			class="com.tutorial.domain.entidades.baseDatos.Contabilidad"
+  			not-null="true"/>
+  
+  <many-to-one  
+  			name="banco"
+  			column="id_banco"
+  			class="com.tutorial.domain.entidades.baseDatos.TmaeBanco"
+  			not-null="true"/>
+    
+  <many-to-one 
+  			name="idCreador" 
+  			class="com.tutorial.domain.entidades.baseDatos.Usuario"
+   			column="id_creador"
+   			not-null="true"/>
+   			
+  <property name="fechaApertura" type="java.util.Date">
+   <column name="fecha_apertura" not-null="true"/>
+  </property>
+  <property name="fechaVencimiento"  type="java.util.Date">
+   <column name="fecha_vencimiento" not-null="true" />
+  </property>
+  <property name="nombreDeposito" type="java.lang.String">
+   <column name="nombre_deposito"/>
+  </property>
+  <property name="titular" type="java.lang.String">
+   <column name="titular"/>
+  </property>
+  <property name="cotitular" type="java.lang.String">
+   <column name="cotitular"/>
+  </property>
+  <property name="descripcion" type="java.lang.String">
+   <column name="descripcion"/>
+  </property>
+  <property name="baja"  type="java.lang.String">
+   <column name="baja" not-null="true"/>
+  </property>
+  <property name="rentabilidad" type="java.lang.Float">
+   <column name="rentabilidad"  not-null="true" />
+  </property>
+  <property name="rentabilidadAnticipada" type="java.lang.Float">
+   <column name="rentabilidad_anticipada"  not-null="false" />
+  </property>
+  <property name="importe" type="java.lang.Float">
+   <column name="importe"  not-null="true" />
+  </property>
+ </class>
+</hibernate-mapping>

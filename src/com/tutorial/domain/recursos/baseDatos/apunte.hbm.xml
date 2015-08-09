@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-nov-2011 21:02:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tutorial.domain.entidades.baseDatos.Apunte" table="apunte">
+        <id name="idApunte" type="java.lang.Integer">
+            <column name="id_apunte" />
+            <generator class="native" />
+        </id>
+        
+         <many-to-one 
+        	name="cuenta"  
+        	column="id_cuenta"
+        	class="com.tutorial.domain.entidades.baseDatos.Cuenta" 
+        	not-null="true"/>
+        
+         <many-to-one 
+        	name="clase"  
+        	column="id_clase"
+        	class="com.tutorial.domain.entidades.baseDatos.Clase" 
+        	not-null="true"/>
+        	
+        <property name="tipoOperacion" type="java.lang.String">
+            <column name="tipo_operacion" not-null="true"/>
+        </property>
+        
+        <property name="fecha" type="java.util.Date">
+            <column name="fecha" not-null="true"/>
+        </property>
+        
+        <property name="importe" type="big_decimal">
+            <column name="importe"  precision="10" scale="2" not-null="true"/>
+        </property>
+        
+        <property name="concepto" type="java.lang.String">
+            <column name="concepto" />
+        </property>
+        
+        <property name="notas" type="java.lang.String">
+            <column name="notas" />
+        </property>
+        
+        <property name="baja" type="java.lang.String">
+            <column name="baja" not-null="true" />
+        </property>
+        
+        <property name="traspaso" type="java.lang.String">
+            <column name="traspaso" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

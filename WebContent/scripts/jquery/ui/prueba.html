@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI Example Page</title>
+	<link href="css/green-theme/jquery-ui-1.9.0.custom.css" rel="stylesheet">
+	<script src="js/jquery-1.8.2.js"></script>
+	<script src="js/jquery-ui-1.9.0.custom.js"></script>
+	<script src="development-bundle/ui/i18n/jquery.ui.datepicker-es.js"></script>
+
+	<script>
+	$(function() {
+		$.datepicker.setDefaults($.datepicker.regional['es']);
+		$( "#datepicker" ).datepicker({
+		            changeMonth: true,
+            		changeYear: true,
+		            showOn: "both",
+					buttonImage: "development-bundle/demos/images/calendar.gif",
+            		buttonImageOnly: true,
+            	 	showOtherMonths: true,
+            		selectOtherMonths: false,
+            		showWeek: false,
+            		firstDay: 1,
+            		showButtonPanel: true,
+            		onSelect: function(textoFecha, objDatepicker){
+					$("#mensaje").html("<p>Has seleccionado: " + textoFecha + "</p>");
+   }
+        });
+
+	});
+	</script>
+<style>
+	body{
+		font: 62.5% "Trebuchet MS", sans-serif;
+		margin: 50px;
+	}
+	.demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	</style>
+</head>
+<body>
+
+<h1>Welcome to jQuery UI!</h1>
+<!-- Datepicker -->
+<h2 class="demoHeaders">Datepicker</h2>
+<p>Date: <input type="text" id="datepicker" /></p>
+<div id="mensaje"></div>
+
+</body>
+</html>

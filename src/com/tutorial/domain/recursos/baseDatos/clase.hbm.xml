@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-nov-2011 21:02:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tutorial.domain.entidades.baseDatos.Clase" table="clase">
+        <id name="idClase" type="java.lang.Integer">
+            <column name="id_clase" />
+            <generator class="native" />
+        </id>
+        <many-to-one 
+  			name="grupo"
+  			column="id_grupo"
+  			class="com.tutorial.domain.entidades.baseDatos.Grupo" 
+  			not-null="true"/>
+        
+        <property name="nombre" type="java.lang.String">
+            <column name="nombre" not-null="true"/>
+        </property>
+        <property name="notas" type="java.lang.String">
+            <column name="notas" />
+        </property>
+        <property name="baja" type="java.lang.String">
+            <column name="baja" not-null="true"/>
+        </property>
+        
+        <set cascade="save-update" 
+  			name="apunteses"
+  			inverse="true"
+  			lazy="true">
+   			<key column="id_clase"/>
+   			<one-to-many class="com.tutorial.domain.entidades.baseDatos.Apunte"/>
+  		</set>
+  		
+  		<set cascade="save-update" 
+  			name="apuntePorDefectoes"
+  			inverse="true"
+  			lazy="true">
+   			<key column="id_clase"/>
+   			<one-to-many class="com.tutorial.domain.entidades.baseDatos.ApuntePorDefecto"/>
+  		</set>
+  
+    </class>
+</hibernate-mapping>

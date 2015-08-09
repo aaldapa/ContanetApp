@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+  <form-beans>
+	<!-- Login-->
+    <form-bean name="loginForm" type="com.tutorial.struts.forms.login.LoginForm"/>       
+   	<!-- Expediente -->
+   	<form-bean name="expedienteForm" type="com.tutorial.struts.forms.expediente.ExpedienteForm"/>
+   	<!-- Familia -->
+   	<form-bean name="listadoFamiliasForm" type="com.tutorial.struts.forms.familia.FamiliaListForm"/>
+   	<form-bean name="familiaForm" type="com.tutorial.struts.forms.familia.FamiliaForm"/>
+   	<!-- Contabilidad -->
+   	<form-bean name="listadoContadilidadesForm" type="com.tutorial.struts.forms.contabilidad.ContabilidadListForm"/>
+   	<form-bean name="contabilidadForm" type="com.tutorial.struts.forms.contabilidad.ContabilidadForm"/>
+   	<!-- Usuario -->
+   	<form-bean name="listadoUsuariosForm" type="com.tutorial.struts.forms.usuario.UsuarioListForm"/>
+   	<form-bean name="usuarioForm" type="com.tutorial.struts.forms.usuario.UsuarioForm"/>
+  	<!-- Rol -->
+   	<form-bean name="listadoRolesForm" type="com.tutorial.struts.forms.rol.RolListForm"/>
+   	<form-bean name="rolForm" type="com.tutorial.struts.forms.rol.RolForm"/>
+  	<!-- Grupo -->
+  	<form-bean name="listadoGruposForm" type="com.tutorial.struts.forms.grupo.GrupoListForm" />
+  	<form-bean name="grupoForm" type="com.tutorial.struts.forms.grupo.GrupoForm"/>
+  	<!-- Clase -->
+  	<form-bean name="listadoClasesForm" type="com.tutorial.struts.forms.clase.ClaseListForm" />
+  	<form-bean name="claseForm" type="com.tutorial.struts.forms.clase.ClaseForm"/>
+	<!-- Cuenta -->
+  	<form-bean name="listadoCuentasForm" type="com.tutorial.struts.forms.cuenta.CuentaListForm" />
+  	<form-bean name="cuentaForm" type="com.tutorial.struts.forms.cuenta.CuentaForm"/>
+  	<!-- Email -->
+    <form-bean name="emailForm" type="com.tutorial.struts.forms.email.EmailForm"/>       
+   	<!-- Apunte -->
+   	<form-bean name="uploadApunteForm" type="com.tutorial.struts.forms.apunte.UploadApunteForm"/>
+   	<form-bean name="listadoApuntesForm" type="com.tutorial.struts.forms.apunte.ApunteListForm"/>
+   	<form-bean name="apunteForm" type="com.tutorial.struts.forms.apunte.ApunteForm"/>
+   	<!-- Informe -->
+   	<form-bean name="informeForm" type="com.tutorial.struts.forms.informe.InformeForm"/> 
+   	<!-- ApuntePorDefecto -->
+   	<form-bean name="apuntePorDefectoForm" type="com.tutorial.struts.forms.apuntepordefecto.ApuntePorDefectoForm"/>
+   	<!-- Analisis -->
+   	<form-bean name="analisisForm" type="com.tutorial.struts.forms.analisis.AnalisisForm"/>
+   	<!-- Depositos -->
+   	<form-bean name="listadoDepositosForm" type="com.tutorial.struts.forms.deposito.DepositoListForm" />
+   	<form-bean name="depositoForm" type="com.tutorial.struts.forms.deposito.DepositoForm"/>
+   	
+  </form-beans>
+  
+
+  <global-forwards>
+    <forward name="inicio" path="/action/login"/>
+  </global-forwards>
+  
+  <action-mappings>
+   	<!-- Login -->
+   	<action
+      path="/login"
+      type="com.tutorial.struts.actions.login.LoginAction"
+      scope="request"
+      name="loginForm"
+      validate="true"
+      input="/jsp/login/login.jsp">
+      <forward name="Success" path="/action/viewExpediente" redirect="true"/>
+      <forward name="Failure" path="/jsp/login/login.jsp"/>
+    </action> 
+
+    <action
+      path="/logout"
+      type="com.tutorial.struts.actions.login.LogoutAction"
+      scope="request">
+      <forward name="Success" path="/jsp/login/login.jsp" redirect="true"/>
+    </action>
+    
+  <!-- Expediente -->
+    <action
+       path="/viewExpediente"
+       name="expedienteForm"
+       type="com.tutorial.struts.actions.expediente.GetExpedienteAction"   
+       scope="request"      
+       validate="false">
+       <forward name="success" path="/jsp/expediente/expediente.jsp"/>
+       <forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/recargarExpediente" type="com.tutorial.struts.actions.expediente.RecargarExpedienteAction" scope="request"/>
+      
+    <!-- Familia -->
+    <action path="/listarFamilias"
+      	type="com.tutorial.struts.actions.familia.GetListaFamiliasAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/familia/listaFamilias.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/familiaRedirect"
+      	name="listadoFamiliasForm"
+    	type="com.tutorial.struts.actions.familia.VerFamiliaAction"
+    	scope="request"
+    	validate="true"
+      	input="/action/listarFamilias">
+    	<forward name="success" path="/jsp/familia/familia.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+	
+	<action path="/familia"
+      	name="familiaForm"
+    	type="com.tutorial.struts.actions.familia.FamiliaAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/familia/familia.jsp">
+    	<forward name="success" path="/action/listarFamilias"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <!-- Contabilidad -->
+    <action path="/listarContabilidades"
+      	type="com.tutorial.struts.actions.contabilidad.GetListaContabilidadesAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/contabilidad/listaContabilidades.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+   
+    <action path="/contabilidadRedirect"
+      	name="listadoContadilidadesForm"
+    	type="com.tutorial.struts.actions.contabilidad.VerContabilidadAction"
+    	scope="request"
+    	validate="true"
+      	input="/action/listarContabilidades">
+    	<forward name="success" path="/jsp/contabilidad/contabilidad.jsp"/>
+    	<forward name="verCuentas" path="/jsp/contabilidad/listaCuentas.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/contabilidad"
+      	name="contabilidadForm"
+    	type="com.tutorial.struts.actions.contabilidad.ContabilidadAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/contabilidad/contabilidad.jsp">
+    	<forward name="success" path="/action/listarContabilidades"/>
+    	<forward name="unauthorized" path="/jsp/contabilidad/contabilidad.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+   	
+   	<!-- Contabilidad Cuenta -->
+    <action path="/contabilidadListarCuentas"
+      	name="listadoCuentasForm"
+      	type="com.tutorial.struts.actions.contabilidad.GetListaCuentasAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/contabilidad/listaCuentas.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/contabilidadCuentaRedirect"
+      	name="listadoCuentasForm"
+    	type="com.tutorial.struts.actions.contabilidad.VerCuentaAction"
+    	scope="request"
+ 		validate="true"
+      	input="/action/contabilidadListarCuentas">
+    	<forward name="success" path="/jsp/contabilidad/cuenta.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/contabilidadCuenta"
+      	name="cuentaForm"
+    	type="com.tutorial.struts.actions.contabilidad.CuentaAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/contabilidad/cuenta.jsp">
+    	<forward name="success" path="/action/contabilidadListarCuentas"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <!-- Usuario -->
+    <action path="/listarUsuarios"
+      	type="com.tutorial.struts.actions.usuario.GetListaUsuariosAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/usuario/listaUsuarios.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/usuarioRedirect"
+      	name="listadoUsuariosForm"
+    	type="com.tutorial.struts.actions.usuario.VerUsuarioAction"
+    	scope="request"
+    	validate="true"
+      	input="/action/listarUsuarios">
+    	<forward name="Sucess" path="/jsp/usuario/usuario.jsp"/>
+    	<forward name="Failure" path="/jsp/login/login.jsp"/>
+    </action>
+       
+    <action path="/usuario"
+      	name="usuarioForm"
+    	type="com.tutorial.struts.actions.usuario.UsuarioAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/usuario/usuario.jsp">
+    	<forward name="Sucess" path="/action/listarUsuarios"/>
+    	<forward name="Failure" path="/jsp/login/login.jsp"/>
+    </action>
+
+	<!-- Rol -->
+    <action path="/listarRoles"
+      	type="com.tutorial.struts.actions.rol.GetListaRolesAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="Success" path="/jsp/rol/listaRoles.jsp"/>
+   		<forward name="Failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/rolRedirect"
+      	name="listadoRolesForm"
+    	type="com.tutorial.struts.actions.rol.VerRolAction"
+    	scope="request"
+    	validate="true"
+      	input="/action/listarRoles">
+    	<forward name="Sucess" path="/jsp/rol/rol.jsp"/>
+    	<forward name="Failure" path="/jsp/login/login.jsp"/>
+    </action>
+	
+	<action path="/rol"
+      	name="rolForm"
+    	type="com.tutorial.struts.actions.rol.RolAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/rol/rol.jsp">
+    	<forward name="Sucess" path="/action/listarRoles"/>
+    	<forward name="Failure" path="/jsp/login/login.jsp"/>
+    </action>
+
+	<!-- Grupo -->
+    <action path="/listarGrupos"
+      	type="com.tutorial.struts.actions.grupo.GetListaGruposAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/grupo/listaGrupos.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/grupoRedirect"
+      	name="listadoGruposForm"
+    	type="com.tutorial.struts.actions.grupo.VerGrupoAction"
+    	scope="request"
+    	validate="true"
+      	input="/action/listarGrupos">
+    	<forward name="success" path="/jsp/grupo/grupo.jsp"/>
+    	<forward name="verClases" path="/jsp/grupo/listaClases.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/grupo"
+      	name="grupoForm"
+    	type="com.tutorial.struts.actions.grupo.GrupoAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/grupo/grupo.jsp">
+    	<forward name="success" path="/action/listarGrupos"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    
+    <!-- Grupo Clase -->
+   <action path="/grupoListarClases"
+      	name="listadoClasesForm"
+      	type="com.tutorial.struts.actions.grupo.GetListaClasesAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/grupo/listaClases.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/grupoClaseRedirect"
+      	name="listadoClasesForm"
+    	type="com.tutorial.struts.actions.grupo.VerClaseAction"
+    	scope="request"
+ 		validate="true"
+      	input="/action/grupoListarClases">
+    	<forward name="success" path="/jsp/grupo/clase.jsp"/>
+    	<forward name="grupos" path="/action/listarGrupos"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+     
+    <action path="/grupoClase"
+      	name="claseForm"
+    	type="com.tutorial.struts.actions.grupo.ClaseAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/grupo/clase.jsp">
+    	<forward name="success" path="/action/grupoListarClases"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+
+    <!-- Clase -->
+    <action path="/listarClases"
+      	name="listadoClasesForm"
+      	type="com.tutorial.struts.actions.clase.GetListaClasesAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/clase/listaClases.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+   
+    <action path="/claseRedirect"
+      	name="listadoClasesForm"
+    	type="com.tutorial.struts.actions.clase.VerClaseAction"
+    	scope="request"
+ 		validate="true"
+      	input="/action/listarClases">
+    	<forward name="success" path="/jsp/clase/clase.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/clase"
+      	name="claseForm"
+    	type="com.tutorial.struts.actions.clase.ClaseAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/clase/clase.jsp">
+    	<forward name="success" path="/action/listarClases"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <!-- Cuenta -->
+    <action path="/listarCuentas"
+      	type="com.tutorial.struts.actions.cuenta.GetListaCuentasAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/cuenta/listaCuentas.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/cuentaRedirect"
+      	name="listadoCuentasForm"
+    	type="com.tutorial.struts.actions.cuenta.VerCuentaAction"
+    	scope="request"
+ 		validate="true"
+      	input="/action/listarCuentas">
+    	<forward name="success" path="/jsp/cuenta/cuenta.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/cuenta"
+      	name="cuentaForm"
+    	type="com.tutorial.struts.actions.cuenta.CuentaAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/cuenta/cuenta.jsp">
+    	<forward name="success" path="/action/listarCuentas"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <!-- Email -->
+   	<action
+     	path="/Email"
+      	type="com.tutorial.struts.actions.email.EmailAction"
+      	scope="request"
+      	name="emailForm"
+      	validate="false">
+      	<forward name="success" path="/jsp/email/email.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action> 
+   	
+   	<action
+      path="/envio"
+      type="com.tutorial.struts.actions.email.EnvioEmailAction"
+      scope="request"
+      name="emailForm"
+      validate="true"
+      input="/jsp/email/email.jsp">
+    <forward name="success" path="/jsp/email/envio.jsp"/>
+	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action> 
+  
+     <!-- Apunte -->
+   	<action
+     	path="/seleccionarArchivoApuntes"
+      	type="com.tutorial.struts.actions.apunte.SeleccionarApuntesAction"
+      	scope="request"
+      	name="uploadApunteForm"
+      	validate="false">
+      	<forward name="success" path="/jsp/apunte/importarApuntes.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action
+      	path="/importarApuntes"
+      	type="com.tutorial.struts.actions.apunte.ImportarApunteAction"
+      	scope="request"
+      	name="uploadApunteForm"
+      	validate="true"
+      	input="/jsp/apunte/importarApuntes.jsp">
+    	<forward name="success" path="/action/seleccionarArchivoApuntes"/>
+		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+     
+    <action path="/listarApuntes"
+      	name="listadoApuntesForm"
+      	type="com.tutorial.struts.actions.apunte.BusquedaApuntesAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/apunte/listaApuntes.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/recargarApunteJson" type="com.tutorial.struts.actions.apunte.RecargarLstApuntesAction" scope="request"/>
+    <action path="/autocompletarConceptos" type="com.tutorial.struts.actions.apunte.AutocompletarConceptosAction" scope="request"/>
+    
+    <action path="/recargaApunte"
+    	name="apunteForm"
+    	type="com.tutorial.struts.actions.apunte.VerApunteAction"
+    	scope="request"
+    	validate="false">
+    	<forward name="success" path="/jsp/apunte/apunte.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+            
+    <action path="/apunteRedirect"
+      	name="listadoApuntesForm"
+    	type="com.tutorial.struts.actions.apunte.VerApunteAction"
+    	scope="request"
+ 		validate="true"
+      	input="/action/listarApuntes">
+    	<forward name="success" path="/jsp/apunte/apunte.jsp"/>
+    	<forward name="reorganizarApuntes" path="/jsp/apunte/reorganizar_apuntes.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/apunte"
+      	name="apunteForm"
+    	type="com.tutorial.struts.actions.apunte.ApunteAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/apunte/apunte.jsp">
+    	<forward name="success" path="/action/listarApuntes"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <!-- Para la recarga de los apuntes a reorganizar -->
+    <action path="/recargarReorganizarApuntes"
+    	name="listadoApuntesForm"
+    	type="com.tutorial.struts.actions.apunte.ReorganizarApunteAction"
+    	scope="request"
+ 		validate="true"
+      	input="/jsp/apunte/reorganizar_apuntes.jsp">
+    	<forward name="recargar" path="/jsp/apunte/reorganizar_apuntes.jsp"/>
+    	<forward name="success" path="/action/listarApuntes"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <!-- Informe -->
+    <action
+     	path="/informe"
+      	type="com.tutorial.struts.actions.informe.InformeAction"
+      	scope="request"
+      	name="informeForm"
+      	validate="false">
+      	<forward name="success" path="/jsp/informe/informe.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action> 
+    <action
+     	path="/crearInforme"
+      	type="com.tutorial.struts.actions.informe.CrearInformeAction"
+      	scope="request"
+      	name="informeForm"
+      	validate="true"
+      	input="/jsp/informe/informe.jsp">
+      	<forward name="success" path="/jsp/informe/informe.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action> 
+    
+    <!-- ApuntePorDefecto -->
+    <action
+       path="/viewApuntePorDefecto"
+       name="apuntePorDefectoForm"
+       type="com.tutorial.struts.actions.apuntepordefecto.GetApuntePorDefectoAction"   
+       scope="request"      
+       validate="false">
+       <forward name="success" path="/jsp/apunte_por_defecto/apunte_pd.jsp"/>
+       <forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action
+       path="/ApuntePorDefecto"
+       name="apuntePorDefectoForm"
+       type="com.tutorial.struts.actions.apuntepordefecto.ApuntePorDefectoAction"   
+       scope="request"      
+       validate="false">
+       <forward name="success" path="/action/viewApuntePorDefecto"/>
+       <forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <!-- Analisis -->
+    <action
+       path="/seleccionAnalisis"
+       type="com.tutorial.struts.actions.analisis.TipoGraficaAction" 
+       scope="request"      
+       validate="false">
+       <forward name="success" path="/jsp/analisis/analisis.jsp"/>
+       <forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+     <action
+       path="/volverSeleccionAnalisis"
+       name="analisisForm"
+       type="com.tutorial.struts.actions.analisis.TipoGraficaAction" 
+       scope="request"      
+       validate="false">
+       <forward name="success" path="/jsp/analisis/analisis.jsp"/>
+       <forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    
+    <action
+       path="/viewAnalisis"
+       name="analisisForm"
+       type="com.tutorial.struts.actions.analisis.GetAnalisisAction" 
+       scope="request"      
+       validate="true"
+       input="/action/seleccionAnalisis">
+       <forward name="graficames" path="/jsp/analisis/graficas_meses.jsp"/>
+       <forward name="graficagrupo" path="/jsp/analisis/graficas_grupos.jsp"/>
+       <forward name="graficaclase" path="/jsp/analisis/graficas_clases.jsp"/>
+       <forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/recargarAnalisis" type="com.tutorial.struts.actions.analisis.AnalisisAction"  scope="request"/>
+    
+    <!-- Deposito -->
+    <action path="/listarDepositos"
+      	type="com.tutorial.struts.actions.deposito.GetListaDepositosAction"
+      	scope="request"
+      	validate="false">
+   		<forward name="success" path="/jsp/deposito/listaDepositos.jsp"/>
+   		<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/depositoRedirect"
+      	name="listadoDepositosForm"
+    	type="com.tutorial.struts.actions.deposito.VerDepositoAction"
+    	scope="request"
+ 		validate="true"
+      	input="/action/listarDepositos">
+    	<forward name="success" path="/jsp/deposito/deposito.jsp"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    <action path="/deposito"
+      	name="depositoForm"
+    	type="com.tutorial.struts.actions.deposito.DepositoAction"
+    	scope="request"
+    	validate="true"
+    	input="/jsp/deposito/deposito.jsp">
+    	<forward name="success" path="/action/listarDepositos"/>
+    	<forward name="failure" path="/jsp/login/login.jsp"/>
+    </action>
+    
+    
+    <!-- Comun -->
+     <action path="/recargarCombo" type="com.tutorial.struts.actions.comun.RecargarCombosAction" scope="request"/> 
+    
+  </action-mappings>
+<message-resources parameter="resources.ApplicationResource, resources.displaytag"/>
+
+<!-- Validator plugin
+<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+	<set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+</plug-in>
+ -->
+</struts-config>

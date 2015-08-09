@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-sep-2011 12:30:01 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+ <class name="com.tutorial.domain.entidades.baseDatos.Contabilidad" table="contabilidad">
+  <id name="idContabilidad" type="java.lang.Integer">
+   <column name="id_contabilidad"/>
+   <generator class="native"/>
+  </id>
+  
+  <many-to-one 
+  	name="creador"
+  	column="id_creador"
+  	class="com.tutorial.domain.entidades.baseDatos.Usuario" 
+  	not-null="true"/>
+  
+  <property name="nombreContabilidad" type="java.lang.String">
+   <column name="nombre_contabilidad"  not-null="true" />
+  </property>
+  <property name="notas" type="java.lang.String">
+   <column name="notas"/>
+  </property>
+  <property name="baja" type="java.lang.String">
+   <column name="baja"  not-null="true" />
+  </property>
+  <property name="predeterminada" type="java.lang.String">
+   <column name="predeterminada"  not-null="true" />
+  </property>
+  <set cascade="save-update" 
+  		name="contabilidadesUsuarioses"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_contabilidad"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.ContabilidadUsuario"/>
+  </set>
+  <set cascade="save-update" 
+  		name="cuentases"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_contabilidad"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.Cuenta"/>
+  </set>
+  <set cascade="save-update" 
+  		name="apuntePorDefectoes"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_contabilidad"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.ApuntePorDefecto"/>
+  </set>
+  
+  <set cascade="save-update" 
+  		name="depositoses"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_contabilidad"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.Deposito"/>
+  </set>
+ 		 
+  
+  </class>
+</hibernate-mapping>

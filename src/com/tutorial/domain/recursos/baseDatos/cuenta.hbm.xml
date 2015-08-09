@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-nov-2011 21:02:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tutorial.domain.entidades.baseDatos.Cuenta" table="cuenta">
+        <id name="idCuenta" type="java.lang.Integer">
+            <column name="id_cuenta" />
+            <generator class="native" />
+        </id>
+        
+        <many-to-one 
+  			name="contabilidad"
+  			column="id_contabilidad"
+  			class="com.tutorial.domain.entidades.baseDatos.Contabilidad" 
+  			not-null="true"/>
+  		
+  		<many-to-one 
+  			name="banco"
+  			column="id_banco"
+  			class="com.tutorial.domain.entidades.baseDatos.TmaeBanco" 
+  			not-null="true"/>
+  		
+        <many-to-one 
+  			name="creador"
+  			column="id_creador"
+  			class="com.tutorial.domain.entidades.baseDatos.Usuario" 
+  			not-null="true"/>
+        
+        <property name="fechaApertura" type="java.util.Date">
+            <column name="fecha_apertura" not-null="true"/>
+        </property>
+        <property name="entidad" type="java.lang.String">
+            <column name="entidad" not-null="true"/>
+        </property>
+        <property name="sucursal" type="java.lang.String">
+            <column name="sucursal" not-null="true"/>
+        </property>
+        <property name="dc" type="java.lang.String">
+            <column name="dc" not-null="true"/>
+        </property>
+        <property name="numCuenta" type="java.lang.String">
+            <column name="num_cuenta" not-null="true"/>
+        </property>
+        <property name="dniTitular" type="java.lang.String">
+            <column name="dni_titular" />
+        </property>
+        <property name="titular" type="java.lang.String">
+            <column name="titular" not-null="true"/>
+        </property>
+        <property name="dniTitular2" type="java.lang.String">
+            <column name="dni_titular2" />
+        </property>
+        <property name="titular2" type="java.lang.String">
+            <column name="titular2"/>
+        </property>
+        <property name="saldoInicial" type="java.lang.Float">
+            <column name="saldo_inicial" not-null="true"/>
+        </property>
+        <property name="notas" type="java.lang.String">
+            <column name="notas" />
+        </property>
+        <property name="baja" type="java.lang.String">
+            <column name="baja" not-null="true"/>
+        </property>
+        <set cascade="save-update" 
+  			name="apunteses"
+  			inverse="true"
+  			lazy="true">
+   			<key column="id_cuenta"/>
+   			<one-to-many class="com.tutorial.domain.entidades.baseDatos.Apunte"/>
+  		</set>
+  		<set cascade="save-update" 
+  			name="apuntePorDefectoes"
+  			inverse="true"
+  			lazy="true">
+   			<key column="id_cuenta"/>
+   			<one-to-many class="com.tutorial.domain.entidades.baseDatos.ApuntePorDefecto"/>
+ 		 </set>
+ 		 
+    </class>
+</hibernate-mapping>

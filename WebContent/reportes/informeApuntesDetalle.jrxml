@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informeApuntesDetalle" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F5F5F5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="P_FINICIO" class="java.util.Date"/>
+	<parameter name="P_FFIN" class="java.util.Date"/>
+	<parameter name="P_GRUPO" class="java.lang.Integer"/>
+	<parameter name="P_CLASE" class="java.lang.Integer"/>
+	<parameter name="P_TITULO" class="java.lang.String"/>
+	<parameter name="P_CONTABILIDAD" class="java.lang.String"/>
+	<parameter name="P_CUENTA" class="java.lang.String"/>
+	<parameter name="P_IDCUENTA" class="java.lang.Integer"/>
+	<parameter name="P_SQL" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+IF (tipo_operacion='INGRESO',apt.importe,0) AS INGRESO,
+IF (tipo_operacion='GASTO',apt.importe,0) AS GASTO,
+SUBSTRING(apt.fecha,6,2) AS MESNUMERO,
+CASE SUBSTRING(apt.fecha,6,2)
+      WHEN '01' THEN 'Enero'
+      WHEN '02' THEN 'Febrero'
+      WHEN '03' THEN 'Marzo'
+      WHEN '04' THEN 'Abril'
+      WHEN '05' THEN 'Mayo'
+      WHEN '06' THEN 'Junio'
+      WHEN '07' THEN 'Julio'
+      WHEN '08' THEN 'Agosto'
+      WHEN '09' THEN 'Septiembre'
+      WHEN '10' THEN 'Octubre'
+      WHEN '11' THEN 'Noviembre'
+      WHEN '12' THEN 'Diciembre'
+ END
+AS MES,
+SUBSTRING(apt.fecha,1,4) AS ANIO,
+apt.fecha, apt.concepto, gr.nombre as GRUPO, cl.nombre as CLASE, apt.importe
+
+FROM apunte apt , clase cl, grupo gr
+WHERE cl.id_clase=apt.id_clase
+AND cl.id_grupo=gr.id_grupo
+AND apt.traspaso='N'
+AND apt.fecha BETWEEN
+$P{P_FINICIO} AND $P{P_FFIN}
+AND id_cuenta=$P{P_IDCUENTA}
+AND apt.baja='N'
+ORDER BY apt.fecha;]]>
+	</queryString>
+	<field name="INGRESO" class="java.math.BigDecimal"/>
+	<field name="GASTO" class="java.math.BigDecimal"/>
+	<field name="MESNUMERO" class="java.lang.Object"/>
+	<field name="MES" class="java.lang.String"/>
+	<field name="ANIO" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="concepto" class="java.lang.String"/>
+	<field name="GRUPO" class="java.lang.String"/>
+	<field name="CLASE" class="java.lang.String"/>
+	<field name="importe" class="java.math.BigDecimal"/>
+	<variable name="ANIO_1" class="java.lang.Integer" resetType="Group" resetGroup="EJERCICIO" calculation="Count">
+		<variableExpression><![CDATA[$F{ANIO}]]></variableExpression>
+	</variable>
+	<variable name="ANIO_2" class="java.lang.Integer" resetType="Group" resetGroup="EJERCICIO" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{ANIO}]]></variableExpression>
+	</variable>
+	<variable name="MES_1" class="java.lang.Integer" resetType="Group" resetGroup="MES" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{MES}]]></variableExpression>
+	</variable>
+	<variable name="INGRESO_1" class="java.math.BigDecimal" resetType="Group" resetGroup="MES" calculation="Sum">
+		<variableExpression><![CDATA[$F{INGRESO}]]></variableExpression>
+	</variable>
+	<variable name="GASTO_1" class="java.math.BigDecimal" resetType="Group" resetGroup="MES" calculation="Sum">
+		<variableExpression><![CDATA[$F{GASTO}]]></variableExpression>
+	</variable>
+	<variable name="DIREFENCIA" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{INGRESO_1}.add($V{GASTO_1})]]></variableExpression>
+	</variable>
+	<variable name="INGRESO_E" class="java.math.BigDecimal" resetType="Group" resetGroup="EJERCICIO" calculation="Sum"/>
+	<variable name="INGRESO_2" class="java.math.BigDecimal" resetType="Group" resetGroup="EJERCICIO" calculation="Sum">
+		<variableExpression><![CDATA[$F{INGRESO}]]></variableExpression>
+	</variable>
+	<variable name="GASTO_2" class="java.math.BigDecimal" resetType="Group" resetGroup="EJERCICIO" calculation="Sum">
+		<variableExpression><![CDATA[$F{GASTO}]]></variableExpression>
+	</variable>
+	<group name="EJERCICIO">
+		<groupExpression><![CDATA[$F{ANIO}]]></groupExpression>
+		<groupHeader>
+			<band height="39">
+				<staticText>
+					<reportElement x="0" y="0" width="80" height="20" forecolor="#660000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="14" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[EJERCICIO]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="21" width="555" height="1" backcolor="#000066"/>
+				</line>
+				<textField>
+					<reportElement x="80" y="0" width="100" height="20" forecolor="#660000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="14" isBold="true" isItalic="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{ANIO}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<rectangle>
+					<reportElement x="1" y="22" width="554" height="20"/>
+				</rectangle>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="191" y="22" width="190" height="20" forecolor="#660000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{GASTO_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="381" y="22" width="174" height="20" forecolor="#660000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{INGRESO_2}.add($V{GASTO_2})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="2" width="190" height="20" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ingresos totales del ejercicio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="191" y="2" width="190" height="20" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Gastos totales del ejercicio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="381" y="2" width="175" height="20" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Diferencia total del ejercicio]]></text>
+				</staticText>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="1" y="22" width="190" height="20" forecolor="#660000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{INGRESO_2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="MES">
+		<groupExpression><![CDATA[$F{MES}]]></groupExpression>
+		<groupHeader>
+			<band height="44">
+				<textField>
+					<reportElement x="0" y="4" width="153" height="20" forecolor="#000066"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{MES}+" de "+$F{ANIO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="29" width="56" height="15" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="249" y="29" width="123" height="15" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Grupo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="372" y="29" width="120" height="15" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Clase]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="56" y="29" width="193" height="15" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Concepto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="492" y="29" width="63" height="15" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Importe]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="48">
+				<rectangle>
+					<reportElement x="1" y="23" width="554" height="15"/>
+				</rectangle>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="190" y="22" width="190" height="15" forecolor="#000066"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{GASTO_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="7" width="190" height="15" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ingresos mensuales]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="190" y="7" width="190" height="15" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Gastos mensuales]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="380" y="7" width="175" height="15" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Diferencia mensual]]></text>
+				</staticText>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="380" y="22" width="174" height="15" forecolor="#000066"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{INGRESO_1}.add($V{GASTO_1})]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="0" y="22" width="190" height="15" forecolor="#000066"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{INGRESO_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="22" width="553" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="352" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_TITULO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="461" y="0" width="95" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="54" width="95" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_CONTABILIDAD}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="6" y="38" width="544" height="15"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="156" y="38" width="95" height="15" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contabilidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="38" width="70" height="15" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Fin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="357" y="38" width="93" height="15" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupo]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="6" y="54" width="70" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{P_FINICIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="256" y="38" width="95" height="15" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="257" y="54" width="94" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{P_CUENTA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="455" y="53" width="95" height="15" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["TODAS LAS CLASES"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="455" y="38" width="95" height="15" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clase]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="38" width="70" height="15" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicio]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="357" y="53" width="93" height="15" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["TODOS LOS GRUPOS"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="81" y="54" width="70" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{P_FFIN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="10" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="56" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="249" y="0" width="123" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{GRUPO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="0" width="120" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CLASE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="0" width="193" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{concepto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="492" y="0" width="63" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="12" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="466" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="546" y="0" width="40" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="5" splitType="Stretch"/>
+	</summary>
+</jasperReport>

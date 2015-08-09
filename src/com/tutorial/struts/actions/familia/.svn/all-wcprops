@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/azaroa-project_contanetapp/!svn/ver/2/src/com/tutorial/struts/actions/familia
+END
+FamiliaAction.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/azaroa-project_contanetapp/!svn/ver/2/src/com/tutorial/struts/actions/familia/FamiliaAction.java
+END
+GetListaFamiliasAction.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/azaroa-project_contanetapp/!svn/ver/2/src/com/tutorial/struts/actions/familia/GetListaFamiliasAction.java
+END
+VerFamiliaAction.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/azaroa-project_contanetapp/!svn/ver/2/src/com/tutorial/struts/actions/familia/VerFamiliaAction.java
+END

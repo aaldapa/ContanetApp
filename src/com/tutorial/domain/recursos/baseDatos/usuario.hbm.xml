@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-sep-2011 17:27:30 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="com.tutorial.domain.entidades.baseDatos.Usuario" table="usuario">
+  <id name="idUsuario" type="java.lang.Integer">
+   <column name="id_usuario"/>
+   <generator class="native"/>
+  </id>
+  
+  <many-to-one 
+  	name="perfil"
+  	column="id_perfil"
+  	class="com.tutorial.domain.entidades.baseDatos.Perfil" 
+  	not-null="true"/>
+  	
+  <many-to-one 
+  	name="familia"
+  	column="id_familia"
+  	class="com.tutorial.domain.entidades.baseDatos.Familia" 
+  	not-null="false"/>
+  
+  <property name="nombre" type="java.lang.String">
+   <column name="FirstName" not-null="true"/>
+  </property>
+  <property  name="apellidos" type="java.lang.String">
+   <column name="LastName"/>
+  </property>
+  <property name="email" type="java.lang.String">
+   <column name="email" not-null="true"/>
+  </property>
+  <property name="password" type="java.lang.String">
+   <column name="password" not-null="true"/>
+  </property>
+  <property name="baja" type="java.lang.String">
+   <column name="baja" not-null="true"/>
+  </property>
+  
+  <set cascade="save-update" 
+  		name="contabilidadesUsuarioses"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_usuario"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.ContabilidadUsuario"/>
+  </set>
+  
+  <set cascade="save-update" 
+  		name="contabilidadeses"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_creador"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.Contabilidad"/>
+  </set>
+  
+  <set cascade="save-update" 
+  		name="cuentases"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_creador"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.Cuenta"/>
+  </set>
+  
+  <set cascade="save-update" 
+  		name="apuntePorDefectoes"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_usuario"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.ApuntePorDefecto"/>
+  </set>
+  
+  <set cascade="save-update" 
+  		name="depositoses"
+  		inverse="true"
+  		lazy="true">
+   		<key column="id_creador"/>
+   		<one-to-many class="com.tutorial.domain.entidades.baseDatos.Deposito"/>
+  </set>
+  
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29-nov-2012 21:04:49 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tutorial.domain.entidades.baseDatos.VistaApunteClases" table="vista_apuntes_groupby_clases">
+        <id name="idVista" type="java.lang.Integer">
+           <column name="ID_VISTA" />           
+        </id>
+        <property name="idGrupo" type="java.lang.Integer">
+            <column name="IDGRUPO" />
+        </property>
+        <property name="ingresos" type="java.math.BigDecimal">
+            <column name="INGRESOS" />
+        </property>
+        <property name="gastos" type="java.math.BigDecimal">
+            <column name="GASTOS" />
+        </property>
+        <property name="diferencias" type="java.math.BigDecimal">
+            <column name="DIFERENCIAS" />
+        </property>
+        <property name="anio" type="java.lang.Integer">
+            <column name="ANIO" />
+        </property>
+        <property name="grupo" type="java.lang.String">
+            <column name="GRUPO" />
+        </property>
+        <property name="clase" type="java.lang.String">
+            <column name="CLASE" />
+        </property>
+        <property name="idCuenta" type="java.lang.Integer">
+            <column name="CUENTA" />
+        </property>
+    </class>
+</hibernate-mapping>
